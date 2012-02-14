@@ -1,8 +1,10 @@
 {
 	"name": "geoipcity",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Lookup IP details with Maxmind GeoIP City webservice",
 	"tags": ["http", "geoip", "maxmind"],
 	"author": "Franklin van de Meent <fr@nkl.in>",
-	"homepage": "https://github.com/fvdm/nodejs-geoipcity"
+	"homepage": "https://github.com/fvdm/nodejs-geoipcity",
+	"main": "index.js"
+
 }
