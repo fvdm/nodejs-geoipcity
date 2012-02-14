@@ -19,21 +19,16 @@ geoip.lookup( 'licenceKey', '8.8.8.8', function(data) {
 });
 ```
 
-#### Callback
-
-The callback function returns an object with these elements:
-
-```
-target
-countryCode
-regionCode
-city
-postalCode
-latitude
-longitude
-metroCode
-areaCode
-isp
-org
-extra
+```js
+[ target:      '8.8.8.8',
+  countryCode: 'US',
+  regionCode:  'CA',
+  city:        'Mountain View',
+  postalCode:  '94043',
+  latitude:    '37.419201',
+  longitude:   '-122.057404',
+  metroCode:   '807',
+  areaCode:    '650',
+  isp:         'Level 3 Communications',
+  org:         'Google Incorporated' ]
 ```
