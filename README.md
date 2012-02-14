@@ -3,6 +3,12 @@
 Lookup details for an IP using the Maxmind GeoIP City webservice.
 This requires a license key with webservice access.
 
+#### Install
+
+```
+npm install geoipcity
+```
+
 #### Example
 
 ```js
