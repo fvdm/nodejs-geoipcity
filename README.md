@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/fvdm/nodejs-geoipcity.png?branch=master)](http://travis-ci.org/fvdm/nodejs-geoipcity)
+
 ### geoipcity for node.js
 
 Lookup details for an IP using the Maxmind GeoIP City webservice.
