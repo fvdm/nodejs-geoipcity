@@ -1,10 +1,22 @@
 {
-	"name": "geoipcity",
-	"version": "1.1.1",
-	"description": "Lookup IP details with Maxmind GeoIP City webservice",
-	"tags": ["http", "geoip", "maxmind"],
-	"author": "Franklin van de Meent <fr@nkl.in>",
-	"homepage": "https://github.com/fvdm/nodejs-geoipcity",
-	"main": "index.js"
-
+  "name": "geoipcity",
+  "version": "2.0.0",
+  "description": "Lookup IP details with Maxmind GeoIP City webservice",
+  "tags": [
+    "http",
+    "geoip",
+    "maxmind"
+  ],
+  "author": "Franklin van de Meent <fr@nkl.in> (https://github.com/fvdm)",
+  "homepage": "http://fvdm.github.com/nodejs-geoipcity/",
+  "main": "geoipcity.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "repository": {
+    "url": "git://github.com/fvdm/nodejs-geoipcity.git"
+  }
 }
