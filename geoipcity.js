@@ -31,10 +31,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <http://unlicense.org>
 */
 
-var http = require('http');
-var EventEmitter = require('events').EventEmitter;
+var http = require('http'),
+    app = {}
 
-var app = new EventEmitter();
 
 // settings
 app.settings = {
