@@ -29,7 +29,7 @@ app.lookup = function( ip, callback ) {
 		function( result ) {
 			result.setEncoding('utf8');
 			result.on('data', function( data ) {
-				var data = ip +','+ data;
+				var data = ip +','+ data.trim();
 				callback( app.parseResult( data ) );
 			});
 		}
