@@ -1,22 +1,29 @@
 {
-  "name": "geoipcity",
-  "version": "2.0.0",
-  "description": "Lookup IP details with Maxmind GeoIP City webservice",
-  "tags": [
-    "http",
-    "geoip",
-    "maxmind"
-  ],
-  "author": "Franklin van de Meent <fr@nkl.in> (https://github.com/fvdm)",
-  "homepage": "http://fvdm.github.com/nodejs-geoipcity/",
-  "main": "geoipcity.js",
-  "dependencies": {},
-  "devDependencies": {},
+  "author": {
+    "name":               "Franklin van de Meent",
+    "email":              "fr@nkl.in",
+    "url":                "http://frankl.in"
+  },
+  "name":                 "geoipcity",
+  "description":          "Lookup IP details with Maxmind GeoIP City webservice",
+  "version":              "2.0.0",
+  "repository": {
+    "type":               "git",
+    "url":                "git://github.com/fvdm/nodejs-geoipcity.git"
+  },
+  "bugs": {
+    "url":                "https://github.com/fvdm/nodejs-geoipcity/issues"
+  },
+  "main":                 "geoipcity.js",
+  "dependencies":         {},
+  "devDependencies":      {},
   "optionalDependencies": {},
   "engines": {
-    "node": "*"
+    "node":               "*"
   },
-  "repository": {
-    "url": "git://github.com/fvdm/nodejs-geoipcity.git"
+  "keywords":             ["maxmind", "geoip", "api"],
+  "license": {
+    "type":               "Public Domain",
+    "url":                "https://github.com/fvdm/nodejs-geoipcity/raw/master/UNLICENSE"
   }
 }
