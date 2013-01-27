@@ -44,20 +44,29 @@ app.settings = {
 
 // do lookup
 app.lookup = function( ip, callback ) {
-	http.get(
-		{
-			host: app.settings.apihost,
-			port: app.settings.apiport,
-			path: '/f?l='+ app.settings.license +'&i='+ ip
-		},
-		function( result ) {
-			result.setEncoding('utf8');
-			result.on('data', function( data ) {
-				var data = ip +','+ data.trim();
-				callback( app.parseResult( data ) );
-			});
-		}
-	);
+	
+	// build request
+	var options = {
+		host: app.settings.apihost,
+		port: app.settings.apiport,
+		path: '/f?l='+ app.settings.license +'&i='+ ip,
+		method: 'GET'
+	}
+	
+	var request = http.request( options )
+	
+	// process response
+	request.on( 'response', function( response ) {
+		response.on( 'data', function( data ) {
+			var data = data.toString('utf8').trim()
+			
+			data = app.parseResult( ip +','+ data )
+			callback( data )
+		})
+	})
+	
+	// complete request	
+	request.end()
 }
 
 // parse csv data to object
