@@ -84,7 +84,14 @@ app.lookup = function( ip, callback ) {
 		response.on( 'end', function() {
 			data = data.toString('utf8').trim()
 			
-			if( data === '' ) {
+			if( response.statusCode >= 300 ) {
+				var err = new Error('HTTP error')
+				err.httpCode = response.statusCode
+				err.httpHeaders = response.headers
+				err.request = options
+				err.response = data
+				callback( err )
+			} else if( data === '' ) {
 				var err = new Error('No response')
 				err.httpCode = response.statusCode
 				err.httpHeaders = response.headers
