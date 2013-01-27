@@ -98,7 +98,16 @@ app.lookup = function( ip, callback ) {
 				callback( err )
 			} else {
 				data = app.parseResult( ip +','+ data )
-				callback( null, data )
+				if( !data ) {
+					var err = new Error('Invalid response')
+					err.httpCode = response.statusCode
+					err.httpHeaders = response.headers
+					err.request = options
+					err.response = data
+					callback( err )
+				} else {
+					callback( null, data )
+				}
 			}
 		})
 		
@@ -116,12 +125,21 @@ app.parseResult = function( str ) {
 	var result = {}
 	var head = ['target', 'countryCode', 'regionCode', 'city', 'postalCode', 'latitude', 'longitude', 'metroCode', 'areaCode', 'isp', 'org', 'extra']
 	var str = str.split(',')
+	
+	// check values
+	if( str.length < 11 || str.length > 12 ) {
+		return false
+	}
+	
+	// process
 	for( i=0; i<str.length; i++ ) {
 		if( str[i].substr(0,1) == '"' && str[i].substr(-1,1) == '"' ) {
 			str[i] = str[i].substr( 1, str[i].length -2 )
 		}
 		result[ head[i] ] = str[i]
 	}
+	
+	// done
 	return result
 }
 
