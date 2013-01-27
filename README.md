@@ -40,22 +40,30 @@ geoip.settings.apiproto = 'https'
 ```
 
 
-Usage
------
+.lookup ( ip, callback )
+------------------------
 
 First set the license key, then the lookup(s). The `lookup` function takes two parameters: `err` and `data`. In case of a propblem `err` is an `instanceof Error` with all related information. When everything is good, `err` is *null* and `data` contains the *object* with geo data.
 
 
 ```js
-var geoip = require('geoipcity');
+var geoip = require('geoipcity')
 
-geoip.settings.license = 'licenseKey';
+geoip.settings.license = 'licenseKey'
 
-geoip.lookup( '8.8.8.8', function(data) {
-  console.log( data.city );
-  console.log( data.latitude +', '+ data.longitude );
-});
+geoip.lookup( '8.8.8.8', function( err, data ) {
+	if( !err ) {
+		console.log( data.city )
+		console.log( data.latitude +', '+ data.longitude )
+	} else {
+		console.log( err )
+		console.log( err.stack )
+	}
+})
 ```
+
+
+### Example
 
 ```js
 { target:      '8.8.8.8',
