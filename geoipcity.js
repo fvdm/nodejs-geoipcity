@@ -51,6 +51,12 @@ app.lookup = function( ip, callback ) {
 		return
 	}
 	
+	// check IP
+	if( ! ip.match( /^[0-2]?[0-5]?[0-5]\.[0-2]?[0-5]?[0-5]\.[0-2]?[0-5]?[0-5]\.[0-2]?[0-5]?[0-5]$/ ) ) {
+		callback( new Error('Invalid IP') )
+		return
+	}
+	
 	// build request
 	var options = {
 		host: app.settings.apihost,
