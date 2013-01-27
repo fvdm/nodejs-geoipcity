@@ -105,7 +105,6 @@ app.lookup = function( ip, callback ) {
 					data.httpCode = response.statusCode
 					data.httpHeaders = response.headers
 					data.request = options
-					data.response = data
 					callback( data )
 				} else {
 					callback( null, data )
