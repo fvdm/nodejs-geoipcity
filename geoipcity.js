@@ -67,6 +67,14 @@ app.lookup = function( ip, callback ) {
 	
 	var request = http.request( options )
 	
+	// request failed
+	request.on( 'error', function( error ) {
+		var err = new Error('Request failed')
+		err.request = options
+		err.details = error
+		callback( err )
+	})
+	
 	// process response
 	request.on( 'response', function( response ) {
 		response.on( 'data', function( data ) {
