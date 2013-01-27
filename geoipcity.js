@@ -110,10 +110,13 @@ app.lookup = function( ip, callback ) {
 					callback( null, data )
 				}
 			}
+			
+			return
 		})
 		
 		response.on( 'close', function() {
 			callback( new Error('Disconnected') )
+			return
 		})
 	})
 	
