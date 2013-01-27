@@ -90,6 +90,10 @@ app.lookup = function( ip, callback ) {
 				callback( data )
 			}
 		})
+		
+		response.on( 'close', function() {
+			callback( new Error('Disconnected') )
+		})
 	})
 	
 	// complete request	
