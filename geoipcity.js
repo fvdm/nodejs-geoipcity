@@ -37,7 +37,7 @@ var net = require('net'),
 
 // settings
 app.settings = {
-	apihost:	'geoip3.maxmind.com',
+	apihost:	'geoip.maxmind.com',
 	apiproto:	'http',
 	license:	''
 }
