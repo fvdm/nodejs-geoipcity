@@ -92,11 +92,11 @@ The `err` parameter in the callback function can return these errors. Some have 
 	Error: No license         You did not specify your license key.
 	Error: Invalid IP         The provided IP address is invalid.
 	Error: Request failed     The request can't be made.
-	Error: HTTP error         The API return a HTTP error.
+	Error: HTTP error         The API returned a HTTP error.
 	Error: No response        The API did not return data.
 	Error: Invalid response   The API returned invalid data.
 	Error: Disconnected       The API closed the connection too early.
-	Error: API error          The API return an error.
+	Error: API error          The API returned an error.
 
 ### Additional properties
 
