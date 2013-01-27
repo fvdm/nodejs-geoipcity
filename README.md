@@ -43,7 +43,9 @@ geoip.settings.apiproto = 'https'
 .lookup ( ip, callback )
 ------------------------
 
-First set the license key, then the lookup(s). The `lookup` function takes two parameters: `err` and `data`. In case of a propblem `err` is an `instanceof Error` with all related information. When everything is good, `err` is *null* and `data` contains the *object* with geo data.
+First set the license key, then the lookup(s). The `lookup` function takes two parameters: `ip` (the IPv4 or IPv6 address) and `callback`.
+
+The `callback` function takes these two parameters: first `err` then `data`. In case of a problem `err` is an `instanceof Error` with all related information. When everything is good, `err` is *null* and `data` contains the *object* with geo data.
 
 
 ```js
