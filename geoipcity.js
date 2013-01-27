@@ -77,8 +77,12 @@ app.lookup = function( ip, callback ) {
 	
 	// process response
 	request.on( 'response', function( response ) {
-		response.on( 'data', function( data ) {
-			var data = data.toString('utf8').trim()
+		var data = ''
+		
+		response.on( 'data', function( ch ) { data += ch })
+		
+		response.on( 'end', function() {
+			data = data.toString('utf8').trim()
 			
 			if( data === '' ) {
 				var err = new Error('No response')
