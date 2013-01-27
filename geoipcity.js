@@ -98,7 +98,7 @@ app.lookup = function( ip, callback ) {
 				callback( err )
 			} else {
 				data = app.parseResult( ip +','+ data )
-				callback( data )
+				callback( null, data )
 			}
 		})
 		
