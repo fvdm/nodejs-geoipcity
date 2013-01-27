@@ -45,6 +45,12 @@ app.settings = {
 // do lookup
 app.lookup = function( ip, callback ) {
 	
+	// check license
+	if( typeof app.settings.license !== 'string' || app.settings.license === '' ) {
+		callback( new Error('No license') )
+		return
+	}
+	
 	// build request
 	var options = {
 		host: app.settings.apihost,
