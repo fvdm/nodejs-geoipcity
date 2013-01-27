@@ -31,7 +31,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <http://unlicense.org>
 */
 
-var app = {}
+var net = require('net'),
+    app = {}
 
 
 // settings
@@ -51,7 +52,10 @@ app.lookup = function( ip, callback ) {
 	}
 	
 	// check IP
-	if( ! ip.match( /^[0-2]?[0-5]?[0-5]\.[0-2]?[0-5]?[0-5]\.[0-2]?[0-5]?[0-5]\.[0-2]?[0-5]?[0-5]$/ ) ) {
+	var ipv6 = /^[0-9a-f]{1,4}\:(\:?[0-9a-f]{1,4}){1,7}$/i
+	var ipv4 = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/
+	
+	if( net.isIP( ip ) == 0 ) {
 		callback( new Error('Invalid IP') )
 		return
 	}
