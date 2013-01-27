@@ -1,27 +1,52 @@
 geoipcity for node.js
 =====================
 
-Lookup details for an IP using the [Maxmind GeoIP City](http://www.maxmind.com/app/web_services) webservice. This requires a license key with webservice access.
+Lookup details for an IP using the [Maxmind GeoIP City](http://www.maxmind.com/en/web_services) webservice. This requires a license key with webservice access.
 
 [![Build Status](https://secure.travis-ci.org/fvdm/nodejs-geoipcity.png?branch=master)](http://travis-ci.org/fvdm/nodejs-geoipcity)
 
-## Install
+
+Installation
+------------
 
 ### With NPM
 
-**npm install geoipcity**
+This is always the most recent *stable* version.
+
+	npm install geoipcity
+
+
+### From Github:
+
+This is the most recent code, but may be *untested*.
+
+	git clone https://github.com/fvdm/nodejs-geoipcity
+	npm install ./nodejs-geoipcity
+
+
+Configuration
+-------------
+
+You can change a few parameters with the `settings` object:
+
+	license    Your MaxMind license key.
+	apihost    Default set to 'geoip.maxmind.com'.
+	apiproto   Default set to 'http', set to 'https' for more security.
+
+
+### Example
 
 ```js
-var geoip = require('geoipcity');
+geoip.settings.license = 'myLicenseKey'
+geoip.settings.apiproto = 'https'
 ```
 
-### From source:
 
-```js
-var geoip = require('./geoipcity.js');
-```
+Usage
+-----
 
-## Example
+First set the license key, then the lookup(s). The `lookup` function takes two parameters: `err` and `data`. In case of a propblem `err` is an `instanceof Error` with all related information. When everything is good, `err` is *null* and `data` contains the *object* with geo data.
+
 
 ```js
 var geoip = require('geoipcity');
@@ -47,6 +72,32 @@ geoip.lookup( '8.8.8.8', function(data) {
   isp:         'Level 3 Communications',
   org:         'Google Incorporated' }
 ```
+
+
+Error handling
+--------------
+
+The `err` parameter in the callback function can return these errors. Some have additional properties.
+
+### Errors
+
+	Error: No license         You did not specify your license key.
+	Error: Invalid IP         The provided IP address is invalid.
+	Error: Request failed     The request can't be made.
+	Error: HTTP error         The API return a HTTP error.
+	Error: No response        The API did not return data.
+	Error: Invalid response   The API returned invalid data.
+	Error: Disconnected       The API closed the connection too early.
+	Error: API error          The API return an error.
+
+### Additional properties
+
+	.details       ie. IP_NOT_FOUND
+	.httpCode      ie. 404
+	.httpHeaders   Object with response headers
+	.request       Object with request details
+	.response      Response body
+
 
 ## Unlicense
 
