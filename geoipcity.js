@@ -80,8 +80,15 @@ app.lookup = function( ip, callback ) {
 		response.on( 'data', function( data ) {
 			var data = data.toString('utf8').trim()
 			
-			data = app.parseResult( ip +','+ data )
-			callback( data )
+			if( data === '' ) {
+				var err = new Error('No response')
+				err.httpCode = response.statusCode
+				err.httpHeaders = response.headers
+				callback( err )
+			} else {
+				data = app.parseResult( ip +','+ data )
+				callback( data )
+			}
 		})
 	})
 	
