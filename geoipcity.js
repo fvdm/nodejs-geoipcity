@@ -31,14 +31,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <http://unlicense.org>
 */
 
-var http = require('http'),
-    app = {}
+var app = {}
 
 
 // settings
 app.settings = {
 	apihost:	'geoip3.maxmind.com',
-	apiport:	80,
+	apiproto:	'http',
 	license:	''
 }
 
@@ -60,12 +59,15 @@ app.lookup = function( ip, callback ) {
 	// build request
 	var options = {
 		host: app.settings.apihost,
-		port: app.settings.apiport,
 		path: '/f?l='+ app.settings.license +'&i='+ ip,
 		method: 'GET'
 	}
 	
-	var request = http.request( options )
+	if( app.apiproto === 'https' ) {
+		var request = require('https').request( options )
+	} else {
+		var request = require('http').request( options )
+	}
 	
 	// request failed
 	request.on( 'error', function( error ) {
