@@ -104,13 +104,12 @@ app.lookup = function( ip, callback ) {
 				callback( err )
 			} else {
 				data = app.parseResult( ip +','+ data )
-				if( !data ) {
-					var err = new Error('Invalid response')
-					err.httpCode = response.statusCode
-					err.httpHeaders = response.headers
-					err.request = options
-					err.response = data
-					callback( err )
+				if( data instanceof Error ) {
+					data.httpCode = response.statusCode
+					data.httpHeaders = response.headers
+					data.request = options
+					data.response = data
+					callback( data )
 				} else {
 					callback( null, data )
 				}
@@ -134,7 +133,8 @@ app.parseResult = function( str ) {
 	
 	// check values
 	if( str.length < 11 || str.length > 12 ) {
-		return false
+		return new Error('Invalid response')
+	}
 	}
 	
 	// process
