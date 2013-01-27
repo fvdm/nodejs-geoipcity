@@ -134,6 +134,12 @@ app.parseResult = function( str ) {
 	if( str.length < 11 || str.length > 12 ) {
 		return new Error('Invalid response')
 	}
+	
+	// API error
+	if( typeof str[11] === 'string' && str[11].match( /^[A-Z_]+$/ ) ) {
+		var err = new Error('API error')
+		err.details = str[11]
+		return err
 	}
 	
 	// process
