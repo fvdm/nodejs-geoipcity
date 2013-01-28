@@ -122,6 +122,13 @@ app.lookup = function( ip, service, callback ) {
 		var service = 'cityisporg'
 	}
 	
+	// check service
+	var serviceHead = app.serviceFields( service )
+	if( ! serviceHead ) {
+		callback( new Error('Invalid service') )
+		return
+	}
+	
 	// check license
 	if( typeof app.settings.license !== 'string' || app.settings.license === '' ) {
 		callback( new Error('No license') )
