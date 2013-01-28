@@ -214,14 +214,15 @@ app.parseResult = function( str, head ) {
 	var str = str.split(',')
 	
 	// check values
-	if( str.length < 11 || str.length > 12 ) {
+	if( str.length < head.length -1 || str.length > head.length ) {
 		return new Error('Invalid response')
 	}
 	
 	// API error
-	if( typeof str[11] === 'string' && str[11].match( /^[A-Z_]+$/ ) ) {
+	var error = str[ head.length -1 ] || false
+	if( typeof error === 'string' && error.match( /^[A-Z_]+$/ ) ) {
 		var err = new Error('API error')
-		err.details = str[11]
+		err.details = error
 		return err
 	}
 	
