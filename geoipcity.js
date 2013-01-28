@@ -115,7 +115,12 @@ app.serviceFields = function( service ) {
 }
 
 // do lookup
-app.lookup = function( ip, callback ) {
+app.lookup = function( ip, service, callback ) {
+	
+	if( typeof service === 'function' ) {
+		var callback = service
+		var service = 'cityisporg'
+	}
 	
 	// check license
 	if( typeof app.settings.license !== 'string' || app.settings.license === '' ) {
