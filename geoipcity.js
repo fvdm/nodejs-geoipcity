@@ -144,8 +144,8 @@ app.parseResult = function( str ) {
 	
 	// process
 	for( i=0; i<str.length; i++ ) {
-		if( str[i].substr(0,1) == '"' && str[i].substr(-1,1) == '"' ) {
-			str[i] = str[i].substr( 1, str[i].length -2 )
+		if( str[i].match( /^".*"$/ ) ) {
+			str[i] = str[i].slice(1, -1)
 		}
 		result[ head[i] ] = str[i]
 	}
