@@ -42,6 +42,78 @@ app.settings = {
 	license:	''
 }
 
+// service fields
+app.serviceFields = function( service ) {
+	switch( service ) {
+		case 'omni':
+			return [
+				'target',
+				'countryCode',
+				'country',
+				'regionCode',
+				'region',
+				'city',
+				'latitude',
+				'longitude',
+				'metroCode',
+				'areaCode',
+				'timezone',
+				'continentCode',
+				'postalCode',
+				'isp',
+				'org',
+				'domain',
+				'asNumber',
+				'netSpeed',
+				'userType',
+				'accuracyRadius',
+				'countryConfidence',
+				'cityConfidence',
+				'regionConfidence',
+				'postalConfidence',
+				'extra'
+			]
+		break
+		case 'country':
+			return [
+				'target',
+				'country',
+				'extra'
+			]
+		break
+		case 'city':
+			return [
+				'target',
+				'countryCode',
+				'regionCode',
+				'city',
+				'latitude',
+				'longitude',
+				'extra'
+			]
+		break
+		case 'cityisporg':
+			return [
+				'target',
+				'countryCode',
+				'regionCode',
+				'city',
+				'postalCode',
+				'latitude',
+				'longitude',
+				'metroCode',
+				'areaCode',
+				'isp',
+				'org',
+				'extra'
+			]
+		break
+		default:
+			return false
+		break
+	}
+}
+
 // do lookup
 app.lookup = function( ip, callback ) {
 	
