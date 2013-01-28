@@ -127,7 +127,8 @@ The `err` parameter in the callback function can return these errors. Some have 
 	.response      Response body
 
 
-## Unlicense
+Unlicense
+---------
 
 This is free and unencumbered software released into the public domain.
 
