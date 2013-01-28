@@ -44,13 +44,28 @@ geoip.settings.apiproto = 'https'
 ```
 
 
-.lookup ( ip, callback )
-------------------------
+.lookup ( ip, [service], callback )
+-----------------------------------
 
-First set the license key, then the lookup(s). The `lookup` function takes two parameters: `ip` (the IPv4 or IPv6 address) and `callback`.
+Retrieve geolocation and related information about an IP-address from the Maxmind API.
 
-The `callback` function takes these two parameters: first `err` then `data`. In case of a problem `err` is an `instanceof Error` with all related information. When everything is good, `err` is *null* and `data` contains the *object* with geo data.
 
+	ip         string     required   IPv4 or IPv6 address to lookup
+	
+	service    string     optional   Which webservice to use:
+	                                 omni, country, city, cityisporg (default)
+	                                 Override the default with 'settings.service'
+	                                 
+	callback   function   required   A function to receive the data:
+	                                 callback ( err, [data] )
+
+
+* Make sure to first set the license key.
+
+* The `callback` function takes these two parameters: first `err` then `data`. In case of a problem `err` is an `instanceof Error` with all related information. When everything is good, `err` is *null* and `data` contains the *object* with geo data.
+
+
+### Example
 
 ```js
 var geoip = require('geoipcity')
@@ -69,7 +84,7 @@ geoip.lookup( '8.8.8.8', function( err, data ) {
 ```
 
 
-### Example
+### Output for service `cityisporg`
 
 ```js
 { target:      '8.8.8.8',
