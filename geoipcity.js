@@ -47,67 +47,79 @@ app.settings = {
 app.serviceFields = function( service ) {
 	switch( service ) {
 		case 'omni':
-			return [
-				'target',
-				'countryCode',
-				'country',
-				'regionCode',
-				'region',
-				'city',
-				'latitude',
-				'longitude',
-				'metroCode',
-				'areaCode',
-				'timezone',
-				'continentCode',
-				'postalCode',
-				'isp',
-				'org',
-				'domain',
-				'asNumber',
-				'netSpeed',
-				'userType',
-				'accuracyRadius',
-				'countryConfidence',
-				'cityConfidence',
-				'regionConfidence',
-				'postalConfidence',
-				'extra'
-			]
+			return {
+				path: 'e',
+				fields: [
+					'target',
+					'countryCode',
+					'country',
+					'regionCode',
+					'region',
+					'city',
+					'latitude',
+					'longitude',
+					'metroCode',
+					'areaCode',
+					'timezone',
+					'continentCode',
+					'postalCode',
+					'isp',
+					'org',
+					'domain',
+					'asNumber',
+					'netSpeed',
+					'userType',
+					'accuracyRadius',
+					'countryConfidence',
+					'cityConfidence',
+					'regionConfidence',
+					'postalConfidence',
+					'extra'
+				]
+			}
 		break
 		case 'country':
-			return [
-				'target',
-				'country',
-				'extra'
-			]
+			return {
+				path: 'a',
+				fields: [
+					'target',
+					'country',
+					'extra'
+				]
+			}
 		break
 		case 'city':
-			return [
-				'target',
-				'countryCode',
-				'regionCode',
-				'city',
-				'latitude',
-				'longitude',
-				'extra'
-			]
+			return {
+				path: 'b',
+				fields: [
+					'target',
+					'countryCode',
+					'regionCode',
+					'city',
+					'latitude',
+					'longitude',
+					'extra'
+				]
+			}
 		break
 		case 'cityisporg':
-			return [
-				'target',
-				'countryCode',
-				'regionCode',
-				'city',
-				'postalCode',
-				'latitude',
-				'longitude',
-				'metroCode',
-				'areaCode',
-				'isp',
-				'org',
-				'extra'
-			]
+			return {
+				path: 'f',
+				fields: [
+					'target',
+					'countryCode',
+					'regionCode',
+					'city',
+					'postalCode',
+					'latitude',
+					'longitude',
+					'metroCode',
+					'areaCode',
+					'isp',
+					'org',
+					'extra'
+				]
+			}
 		break
 		default:
 			return false
@@ -124,8 +136,8 @@ app.lookup = function( ip, service, callback ) {
 	}
 	
 	// check service
-	var serviceHead = app.serviceFields( service )
-	if( ! serviceHead ) {
+	var service = app.serviceFields( service )
+	if( ! service ) {
 		callback( new Error('Invalid service') )
 		return
 	}
@@ -145,7 +157,7 @@ app.lookup = function( ip, service, callback ) {
 	// build request
 	var options = {
 		host: app.settings.apihost,
-		path: '/f?l='+ app.settings.license +'&i='+ ip,
+		path: '/'+ service.path +'?l='+ app.settings.license +'&i='+ ip,
 		method: 'GET'
 	}
 	
@@ -185,7 +197,7 @@ app.lookup = function( ip, service, callback ) {
 				err.httpHeaders = response.headers
 				callback( err )
 			} else {
-				data = app.parseResult( ip +','+ data, serviceHead )
+				data = app.parseResult( ip +','+ data, service.fields )
 				if( data instanceof Error ) {
 					data.httpCode = response.statusCode
 					data.httpHeaders = response.headers
