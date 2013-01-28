@@ -1,7 +1,16 @@
 geoipcity for node.js
 =====================
 
-Lookup details for an IP using the [Maxmind GeoIP City](http://www.maxmind.com/en/web_services) webservice. This requires a license key with webservice access.
+Lookup details for an IP using the [Maxmind GeoIP City](http://www.maxmind.com/en/web_services) webservices. This requires a license key with webservice access.
+
+This module is compatible with the following Maxmind services:
+
+* Country
+* City
+* City/ISP/Org
+* Omni
+
+You can configure a service to use for all lookups or decide per lookup which service you'd like to use. This allows you to use less expensive calls depending on the level of detail required. See [Configuration](#configuration) and [.lookup](#lookup) below for more information.
 
 
 Installation
