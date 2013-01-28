@@ -27,9 +27,13 @@ Configuration
 
 You can change a few parameters with the `settings` object:
 
-	license    Your MaxMind license key.
-	apihost    Default set to 'geoip.maxmind.com'.
-	apiproto   Default set to 'http', set to 'https' for more security.
+	name        default             description
+	
+	license                         Your MaxMind license key
+	service     cityisporg          API webservice: omni, country, city, cityisporg
+	apihost     geoip.maxmind.com   API servername
+	apiproto    http                Protocol: http or https
+	
 
 
 ### Example
@@ -91,6 +95,7 @@ The `err` parameter in the callback function can return these errors. Some have 
 
 	Error: No license         You did not specify your license key.
 	Error: Invalid IP         The provided IP address is invalid.
+	Error: Invalid service    The provided service name is invalid.
 	Error: Request failed     The request can't be made.
 	Error: HTTP error         The API returned a HTTP error.
 	Error: No response        The API did not return data.

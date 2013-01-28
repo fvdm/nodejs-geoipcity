@@ -39,7 +39,8 @@ var net = require('net'),
 app.settings = {
 	apihost:	'geoip.maxmind.com',
 	apiproto:	'http',
-	license:	''
+	license:	'',
+	service:	'cityisporg'
 }
 
 // service fields
@@ -119,7 +120,7 @@ app.lookup = function( ip, service, callback ) {
 	
 	if( typeof service === 'function' ) {
 		var callback = service
-		var service = 'cityisporg'
+		var service = app.settings.service || 'cityisporg'
 	}
 	
 	// check service
