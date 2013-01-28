@@ -184,7 +184,7 @@ app.lookup = function( ip, service, callback ) {
 				err.httpHeaders = response.headers
 				callback( err )
 			} else {
-				data = app.parseResult( ip +','+ data )
+				data = app.parseResult( ip +','+ data, serviceHead )
 				if( data instanceof Error ) {
 					data.httpCode = response.statusCode
 					data.httpHeaders = response.headers
@@ -209,9 +209,8 @@ app.lookup = function( ip, service, callback ) {
 }
 
 // parse csv data to object
-app.parseResult = function( str ) {
+app.parseResult = function( str, head ) {
 	var result = {}
-	var head = ['target', 'countryCode', 'regionCode', 'city', 'postalCode', 'latitude', 'longitude', 'metroCode', 'areaCode', 'isp', 'org', 'extra']
 	var str = str.split(',')
 	
 	// check values
