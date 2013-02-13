@@ -32,8 +32,12 @@ For more information, please refer to <http://unlicense.org>
 */
 
 var net = require('net'),
+    Iconv = require('iconv').Iconv,
     app = {}
 
+
+// Encoding
+var iconv = new Iconv( 'ISO-8859-1', 'UTF-8' )
 
 // settings
 app.settings = {
@@ -177,12 +181,25 @@ app.lookup = function( ip, service, callback ) {
 	
 	// process response
 	request.on( 'response', function( response ) {
-		var data = ''
+		var data = []
+		var size = 0
 		
-		response.on( 'data', function( ch ) { data += ch })
+		response.on( 'data', function( ch ) {
+			data.push( ch )
+			size += ch.length
+		})
 		
 		response.on( 'end', function() {
-			data = data.toString('utf8').trim()
+			
+			var buf = new Buffer( size )
+			var pos = 0
+			
+			for( var d in data ) {
+				data[d].copy( buf, pos )
+				pos += data[d].length
+			}
+			
+			data = iconv.convert( buf ).toString('utf8').trim()
 			
 			if( response.statusCode >= 300 ) {
 				var err = new Error('HTTP error')
