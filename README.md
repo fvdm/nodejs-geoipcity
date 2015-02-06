@@ -12,23 +12,15 @@ This module is compatible with the following Maxmind services:
 
 You can configure a service to use for all lookups or decide per lookup which service you'd like to use. This allows you to use less expensive calls depending on the level of detail required. See [Configuration](#configuration) and [.lookup](#lookup) below for more information.
 
+> New: [geoip2ws](https://www.npmjs.com/package/geoip2ws) package for the Maxmind GeoIP2 web services.
+
 
 Installation
 ------------
 
-### With NPM
+Stable: `npm install geoipcity`
 
-This is always the most recent *stable* version.
-
-	npm install geoipcity
-
-
-### From Github:
-
-This is the most recent code, but may be *untested*.
-
-	git clone https://github.com/fvdm/nodejs-geoipcity
-	npm install ./nodejs-geoipcity
+Develop: `npm install fvdm/nodejs-geoipcity#develop`
 
 
 Configuration
@@ -77,19 +69,17 @@ Retrieve geolocation and related information about an IP-address from the Maxmin
 ### Example
 
 ```js
-var geoip = require('geoipcity')
+var geoip = require ('geoipcity');
+geoip.settings.license = 'licenseKey';
 
-geoip.settings.license = 'licenseKey'
-
-geoip.lookup( '8.8.8.8', function( err, data ) {
-	if( !err ) {
-		console.log( data.city )
-		console.log( data.latitude +', '+ data.longitude )
-	} else {
-		console.log( err )
-		console.log( err.stack )
-	}
-})
+geoip.lookup ('8.8.8.8', function (err, data) {
+  if (!err) {
+    console.log (data.city);
+    console.log (data.latitude +', '+ data.longitude;
+  } else {
+    console.log (err);
+  }
+});
 ```
 
 
@@ -117,23 +107,28 @@ The `err` parameter in the callback function can return these errors. Some have 
 
 ### Errors
 
-	Error: No license         You did not specify your license key.
-	Error: Invalid IP         The provided IP address is invalid.
-	Error: Invalid service    The provided service name is invalid.
-	Error: Request failed     The request can't be made.
-	Error: HTTP error         The API returned a HTTP error.
-	Error: No response        The API did not return data.
-	Error: Invalid response   The API returned invalid data.
-	Error: Disconnected       The API closed the connection too early.
-	Error: API error          The API returned an error.
+message          | description
+-----------------|-----------------------------------------
+No license       | You did not specify your license key.
+Invalid IP       | The provided IP address is invalid.
+Invalid service  | The provided service name is invalid.
+Request failed   | The request can't be made.
+HTTP error       | The API returned a HTTP error.
+No response      | The API did not return data.
+Invalid response | The API returned invalid data.
+Disconnected     | The API closed the connection too early.
+API error        | The API returned an error.
+
 
 ### Additional properties
 
-	.details       ie. IP_NOT_FOUND
-	.httpCode      ie. 404
-	.httpHeaders   Object with response headers
-	.request       Object with request details
-	.response      Response body
+property     | type    | description
+-------------|---------|-----------------------------
+.details     | mixed   | ie. IP_NOT_FOUND
+.httpCode    | integer | ie. 404
+.httpHeaders | object  | Response headers
+.request     | object  | Request details
+.response    | string  | Response body
 
 
 Unlicense
@@ -163,3 +158,11 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <http://unlicense.org>
+
+
+Author
+------
+
+Franklin van de Meent
+| [Website](https://frankl.in)
+| [Github](https://github.com/fvdm)
