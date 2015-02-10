@@ -16,7 +16,7 @@
   },
   "main":                 "geoipcity.js",
   "dependencies": {
-     "iconv":             ">=2.0.0 <3.0.0"
+     "iconv":             "2.x"
   },
   "devDependencies":      {},
   "optionalDependencies": {},
