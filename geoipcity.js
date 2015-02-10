@@ -1,272 +1,235 @@
 /*
 Name:         geoipcity
 Description:  Lookup details for an IP using the Maxmind GeoIP City webservice.
+Author:       Franklin van de Meent (https://frankl.in)
 Source:       https://github.com/fvdm/nodejs-geoipcity
 Feedback:     https://github.com/fvdm/nodejs-geoipcity/issues
 License:      Unlicense / Public Domain
-
-This is free and unencumbered software released into the public domain.
-
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a compiled
-binary, for any purpose, commercial or non-commercial, and by any
-means.
-
-In jurisdictions that recognize copyright laws, the author or authors
-of this software dedicate any and all copyright interest in the
-software to the public domain. We make this dedication for the benefit
-of the public at large and to the detriment of our heirs and
-successors. We intend this dedication to be an overt act of
-relinquishment in perpetuity of all present and future rights to this
-software under copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
-For more information, please refer to <http://unlicense.org>
+              see <https://github.com/fvdm/nodejs-geoipcity/raw/master/UNLICENSE>
 */
 
-var net = require('net'),
-    Iconv = require('iconv').Iconv,
-    app = {}
-
-
-// Encoding
-var iconv = new Iconv( 'ISO-8859-1', 'UTF-8' )
+var net = require ('net');
+var Iconv = require ('iconv').Iconv;
+var iconv = new Iconv ('ISO-8859-1', 'UTF-8');
+module.exports = {};
 
 // settings
-app.settings = {
-	apihost:	'geoip.maxmind.com',
-	apiproto:	'http',
-	license:	'',
-	service:	'cityisporg'
-}
+module.exports.settings = {
+  apihost:  'geoip.maxmind.com',
+  apiproto: 'http',
+  license:  '',
+  service:  'cityisporg'
+};
 
 // service fields
-app.serviceFields = function( service ) {
-	switch( service ) {
-		case 'omni':
-			return {
-				path: 'e',
-				fields: [
-					'target',
-					'countryCode',
-					'country',
-					'regionCode',
-					'region',
-					'city',
-					'latitude',
-					'longitude',
-					'metroCode',
-					'areaCode',
-					'timezone',
-					'continentCode',
-					'postalCode',
-					'isp',
-					'org',
-					'domain',
-					'asNumber',
-					'netSpeed',
-					'userType',
-					'accuracyRadius',
-					'countryConfidence',
-					'cityConfidence',
-					'regionConfidence',
-					'postalConfidence',
-					'extra'
-				]
-			}
-		break
-		case 'country':
-			return {
-				path: 'a',
-				fields: [
-					'target',
-					'country',
-					'extra'
-				]
-			}
-		break
-		case 'city':
-			return {
-				path: 'b',
-				fields: [
-					'target',
-					'countryCode',
-					'regionCode',
-					'city',
-					'latitude',
-					'longitude',
-					'extra'
-				]
-			}
-		break
-		case 'cityisporg':
-			return {
-				path: 'f',
-				fields: [
-					'target',
-					'countryCode',
-					'regionCode',
-					'city',
-					'postalCode',
-					'latitude',
-					'longitude',
-					'metroCode',
-					'areaCode',
-					'isp',
-					'org',
-					'extra'
-				]
-			}
-		break
-		default:
-			return false
-		break
-	}
-}
+module.exports.serviceFields = function (service) {
+  var res = {};
+  switch (service) {
+    case 'omni':
+      res = {
+        path: 'e',
+        fields: [
+          'target',
+          'countryCode',
+          'country',
+          'regionCode',
+          'region',
+          'city',
+          'latitude',
+          'longitude',
+          'metroCode',
+          'areaCode',
+          'timezone',
+          'continentCode',
+          'postalCode',
+          'isp',
+          'org',
+          'domain',
+          'asNumber',
+          'netSpeed',
+          'userType',
+          'accuracyRadius',
+          'countryConfidence',
+          'cityConfidence',
+          'regionConfidence',
+          'postalConfidence',
+          'extra'
+        ]
+      };
+      break;
+    case 'country':
+      res = {
+        path: 'a',
+        fields: [
+          'target',
+          'country',
+          'extra'
+        ]
+      };
+      break;
+    case 'city':
+      res = {
+        path: 'b',
+        fields: [
+          'target',
+          'countryCode',
+          'regionCode',
+          'city',
+          'latitude',
+          'longitude',
+          'extra'
+        ]
+      };
+      break;
+    case 'cityisporg':
+      res = {
+        path: 'f',
+        fields: [
+          'target',
+          'countryCode',
+          'regionCode',
+          'city',
+          'postalCode',
+          'latitude',
+          'longitude',
+          'metroCode',
+          'areaCode',
+          'isp',
+          'org',
+          'extra'
+        ]
+      };
+      break;
+    default:
+      res = false;
+      break;
+  }
+  return res;
+};
 
-// do lookup
-app.lookup = function( ip, service, callback ) {
-	
-	if( typeof service === 'function' ) {
-		var callback = service
-		var service = app.settings.service || 'cityisporg'
-	}
-	
-	// check service
-	var service = app.serviceFields( service )
-	if( ! service ) {
-		callback( new Error('Invalid service') )
-		return
-	}
-	
-	// check license
-	if( typeof app.settings.license !== 'string' || app.settings.license === '' ) {
-		callback( new Error('No license') )
-		return
-	}
-	
-	// check IP
-	if( net.isIP( ip ) == 0 ) {
-		callback( new Error('Invalid IP') )
-		return
-	}
-	
-	// build request
-	var options = {
-		host: app.settings.apihost,
-		path: '/'+ service.path +'?l='+ app.settings.license +'&i='+ ip,
-		method: 'GET'
-	}
-	
-	if( app.apiproto === 'https' ) {
-		var request = require('https').request( options )
-	} else {
-		var request = require('http').request( options )
-	}
-	
-	// request failed
-	request.on( 'error', function( error ) {
-		var err = new Error('Request failed')
-		err.request = options
-		err.details = error
-		callback( err )
-	})
-	
-	// process response
-	request.on( 'response', function( response ) {
-		var data = []
-		var size = 0
-		
-		response.on( 'data', function( ch ) {
-			data.push( ch )
-			size += ch.length
-		})
-		
-		response.on( 'end', function() {
-			
-			var buf = new Buffer( size )
-			var pos = 0
-			
-			for( var d in data ) {
-				data[d].copy( buf, pos )
-				pos += data[d].length
-			}
-			
-			data = iconv.convert( buf ).toString('utf8').trim()
-			
-			if( response.statusCode >= 300 ) {
-				var err = new Error('HTTP error')
-				err.httpCode = response.statusCode
-				err.httpHeaders = response.headers
-				err.request = options
-				err.response = data
-				callback( err )
-			} else if( data === '' ) {
-				var err = new Error('No response')
-				err.httpCode = response.statusCode
-				err.httpHeaders = response.headers
-				callback( err )
-			} else {
-				data = app.parseResult( ip +','+ data, service.fields )
-				if( data instanceof Error ) {
-					data.httpCode = response.statusCode
-					data.httpHeaders = response.headers
-					data.request = options
-					callback( data )
-				} else {
-					callback( null, data )
-				}
-			}
-			
-			return
-		})
-		
-		response.on( 'close', function() {
-			callback( new Error('Disconnected') )
-			return
-		})
-	})
-	
-	// complete request	
-	request.end()
-}
 
 // parse csv data to object
-app.parseResult = function( str, head ) {
-	var result = {}
-	var str = str.split(',')
-	
-	// check values
-	if( str.length < head.length -1 || str.length > head.length ) {
-		return new Error('Invalid response')
-	}
-	
-	// API error
-	var error = str[ head.length -1 ] || false
-	if( typeof error === 'string' && error.match( /^[A-Z_]+$/ ) ) {
-		var err = new Error('API error')
-		err.details = error
-		return err
-	}
-	
-	// process
-	for( i=0; i<str.length; i++ ) {
-		if( str[i].match( /^".*"$/ ) ) {
-			str[i] = str[i].slice(1, -1)
-		}
-		result[ head[i] ] = str[i]
-	}
-	
-	// done
-	return result
-}
+module.exports.parseResult = function (str, head) {
+  var result = {};
+  var str = str.split (',');
 
-// ready
-module.exports = app
+  // check values
+  if (str.length < head.length -1 || str.length > head.length) {
+    return new Error ('Invalid response');
+  }
+
+  // API error
+  var error = str [head.length -1] || false;
+  if (typeof error === 'string' && error.match (/^[A-Z_]+$/)) {
+    var err = new Error ('API error');
+    err.details = error;
+    return err;
+  }
+
+  // process
+  for (i=0; i<str.length; i++) {
+    if (str [i].match (/^".*"$/)) {
+      str [i] = str [i].slice (1, -1);
+    }
+    result [head [i]] = str [i];
+  }
+
+  // done
+  return result;
+};
+
+
+// do lookup
+module.exports.lookup = function (ip, service, callback) {
+  if (typeof service === 'function') {
+    var callback = service;
+    var service = module.exports.settings.service || 'cityisporg';
+  }
+
+  // check service
+  var service = module.exports.serviceFields( service );
+  if (!service) {
+    callback (new Error ('Invalid service'));
+    return;
+  }
+
+  // check license
+  if (typeof module.exports.settings.license !== 'string' || module.exports.settings.license === '') {
+    callback (new Error ('No license'));
+    return;
+  }
+
+  // check IP
+  if (net.isIP (ip) === 0) {
+    callback (new Error ('Invalid IP'));
+    return;
+  }
+
+  // build request
+  var options = {
+    host: module.exports.settings.apihost,
+    path: '/'+ service.path +'?l='+ module.exports.settings.license +'&i='+ ip,
+    method: 'GET'
+  };
+
+  if (module.exports.apiproto === 'https') {
+    var request = require ('https').request (options);
+  } else {
+    var request = require ('http').request (options);
+  }
+
+  // request failed
+  request.on ('error', function (error) {
+    var err = new Error ('Request failed');
+    err.request = options;
+    err.details = error;
+    callback (err);
+  });
+
+  // process response
+  request.on ('response', function (response) {
+    var data = [];
+    var size = 0;
+
+    response.on ('data', function (ch) {
+      data.push (ch);
+      size += ch.length;
+    });
+
+    response.on ('end', function () {
+      var err = null;
+      data = new Buffer.concat (data, size);
+      data = iconv.convert (data).toString ('utf8').trim ();
+
+      if (response.statusCode >= 300) {
+        err = new Error ('HTTP error');
+      } else if (data === '') {
+        err = new Error ('No response');
+      } else {
+        data = module.exports.parseResult (ip +','+ data, service.fields);
+        if (data instanceof Error) {
+          err = data;
+        }
+      }
+
+      if (err) {
+        err.httpCode = response.statusCode;
+        err.httpHeaders = response.headers;
+        err.request = options;
+        err.response = data;
+        data = null;
+      }
+
+      callback (err, data);
+      return;
+    });
+
+    response.on ('close', function () {
+      callback (new Error('Disconnected'));
+      return;
+    });
+  });
+
+  // complete request
+  request.end();
+};
