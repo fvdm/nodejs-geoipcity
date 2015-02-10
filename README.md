@@ -1,72 +1,26 @@
-geoipcity for node.js
-=====================
+geoipcity
+=========
 
-Lookup details for an IP using the [Maxmind GeoIP City](http://www.maxmind.com/en/web_services) webservices. This requires a license key with webservice access.
+Lookup details for an IP address using the legacy [Maxmind GeoIP City](http://www.maxmind.com/en/web_services) webservice.
+A license key with webservice access is required.
 
-This module is compatible with the following Maxmind services:
+This module is compatible with the following Maxmind GeoIP 1 services:
 
 * Country
 * City
 * City/ISP/Org
 * Omni
 
-You can configure a service to use for all lookups or decide per lookup which service you'd like to use. This allows you to use less expensive calls depending on the level of detail required. See [Configuration](#configuration) and [.lookup](#lookup) below for more information.
+You can configure a service to use for all lookups or decide per lookup which service you'd like to use.
+This allows you to use less expensive calls depending on the level of detail required.
+See [Configuration](#configuration) and [.lookup](#lookup) below for more information.
+
 
 > New: [geoip2ws](https://www.npmjs.com/package/geoip2ws) package for the Maxmind GeoIP2 web services.
 
 
-Installation
-------------
-
-Stable: `npm install geoipcity`
-
-Develop: `npm install fvdm/nodejs-geoipcity#develop`
-
-
-Configuration
--------------
-
-You can change a few parameters with the `settings` object:
-
-	name        default             description
-	
-	license                         Your MaxMind license key
-	service     cityisporg          API webservice: omni, country, city, cityisporg
-	apihost     geoip.maxmind.com   API servername
-	apiproto    http                Protocol: http or https
-	
-
-
-### Example
-
-```js
-geoip.settings.license = 'myLicenseKey'
-geoip.settings.apiproto = 'https'
-```
-
-
-.lookup ( ip, [service], callback )
------------------------------------
-
-Retrieve geolocation and related information about an IP-address from the Maxmind API.
-
-
-	ip         string     required   IPv4 or IPv6 address to lookup
-	
-	service    string     optional   Which webservice to use:
-	                                 omni, country, city, cityisporg (default)
-	                                 Override the default with 'settings.service'
-	                                 
-	callback   function   required   A function to receive the data:
-	                                 callback ( err, [data] )
-
-
-* Make sure to first set the license key.
-
-* The `callback` function takes these two parameters: first `err` then `data`. In case of a problem `err` is an `instanceof Error` with all related information. When everything is good, `err` is *null* and `data` contains the *object* with geo data.
-
-
-### Example
+Example
+-------
 
 ```js
 var geoip = require ('geoipcity');
@@ -98,6 +52,53 @@ geoip.lookup ('8.8.8.8', function (err, data) {
   isp:         'Level 3 Communications',
   org:         'Google Incorporated' }
 ```
+
+
+Installation
+------------
+
+Stable: `npm install geoipcity`
+
+Develop: `npm install fvdm/nodejs-geoipcity#develop`
+
+
+Configuration
+-------------
+
+You can change a few parameters with the `settings` object:
+
+name     | type   | required | description
+---------|--------|----------|-------------------------------------------------------
+license  | string | yes      | Your MaxMind license key
+service  | string | no       | API service: omni, country, city, cityisporg (default)
+apihost  | string | no       | API hostname: default `geoip.maxmind.com`
+apiproto | string | no       | Protocol: https or http (default)
+
+
+### Example
+
+```js
+geoip.settings.license = 'myLicenseKey';
+geoip.settings.apiproto = 'https';
+```
+
+
+.lookup ( ip, [service], callback )
+-----------------------------------
+
+Retrieve geolocation and related information about an IP-address from the Maxmind API.
+
+
+param    | type     | required | description
+---------|----------------------------
+ip       | string   | yes      | IPv4 or IPv6 address to lookup
+service  | string   | no       | Override for `settings.service`, see above
+callback | function | yes      | Function to process response
+
+
+The `callback` function takes these two parameters: `err` and `data`.
+In case of a problem `err` is an _instanceof Error_ with all related information.
+When everything is good, `err` is _null_ and `data` contains the _object_ with geo data.
 
 
 Error handling
