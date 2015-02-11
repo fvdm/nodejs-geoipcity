@@ -80,12 +80,6 @@ function doTest (err, label, tests) {
 }
 
 
-var testData = {
-  ip: '8.8.8.8',
-  str: '8.8.8.8,',
-  head: []
-};
-
 function testError (err, message) {
   doTest (null, 'Error: '+ message, [
     ['type', err instanceof Error],
@@ -96,8 +90,6 @@ function testError (err, message) {
 // ! serviceFields
 queue.push (function () {
   var res = app.serviceFields (app.settings.service);
-  testData.head = res.fields;
-
   doTest (null, 'serviceFields', [
     ['type', res instanceof Object],
     ['path', res && res.path === 'f'],
