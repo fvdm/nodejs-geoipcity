@@ -4,6 +4,8 @@ geoipcity
 Lookup details for an IP address using the legacy [Maxmind GeoIP City](http://www.maxmind.com/en/web_services) webservice.
 A license key with webservice access is required.
 
+[![Build Status](https://travis-ci.org/fvdm/nodejs-geoipcity.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-geoipcity)
+
 This module is compatible with the following Maxmind GeoIP legacy services:
 
 * Country
