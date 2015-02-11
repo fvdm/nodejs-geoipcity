@@ -101,7 +101,7 @@ queue.push (function () {
 
 // ! Error: Invalid service
 queue.push (function () {
-  app.lookup ('x', null, function (err, data) {
+  app.lookup ('x', null, function (err) {
     testError (err, 'Invalid service');
   });
 });
@@ -110,7 +110,7 @@ queue.push (function () {
 // ! Error: No license
 queue.push (function () {
   app.settings.license = null;
-  app.lookup ('x', function (err, data) {
+  app.lookup ('x', function (err) {
     testError (err, 'No license');
   });
 });
@@ -119,7 +119,7 @@ queue.push (function () {
 // ! Error: Invalid IP
 queue.push (function () {
   app.settings.license = license;
-  app.lookup ('x', function (err, data) {
+  app.lookup ('x', function (err) {
     testError (err, 'Invalid IP');
   });
 });
@@ -128,7 +128,7 @@ queue.push (function () {
 // ! Error: API error
 queue.push (function () {
   app.settings.license = license;
-  app.lookup ('0.0.0.0', function (err, data) {
+  app.lookup ('0.0.0.0', function (err) {
     doTest (null, 'Error: API error', [
       ['type', err instanceof Error],
       ['message', err.message === 'API error'],
