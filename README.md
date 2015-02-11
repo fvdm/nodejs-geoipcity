@@ -92,7 +92,7 @@ Retrieve geolocation and related information about an IP-address from the Maxmin
 
 
 param    | type     | required | description
----------|----------------------------
+---------|----------|----------|-------------------------------------------
 ip       | string   | yes      | IPv4 or IPv6 address to lookup
 service  | string   | no       | Override for `settings.service`, see above
 callback | function | yes      | Function to process response
