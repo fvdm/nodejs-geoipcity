@@ -146,17 +146,17 @@ queue.push (function () {
 });
 
 
-/* >> Can't this test anymore...
 // ! lookup
 queue.push (function () {
   app.settings.license = license;
   app.lookup ('8.8.8.8', function (err, data) {
     doTest (err, 'lookup', [
-      ['foo', false]
+      ['type', data instanceof Object],
+      ['ip', data.target === '8.8.8.8'],
+      ['countryCOde', data.countryCode === 'US']
     ]);
   });
 });
-*/
 
 
 // Start the tests
