@@ -224,7 +224,7 @@ module.exports.lookup = function (ip, service, callback) {
     });
 
     response.on ('close', function () {
-      callback (new Error('Disconnected'));
+      callback (new Error ('Disconnected'));
       return;
     });
   });
