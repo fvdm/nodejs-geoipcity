@@ -143,6 +143,7 @@ module.exports.parseResult = function (str, head) {
 module.exports.lookup = function (ip, service, callback) {
   if (typeof service === 'function') {
     callback = service;
+    service = module.exports.settings.service || 'cityisporg';
   }
 
   // check service
