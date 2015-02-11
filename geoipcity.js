@@ -111,7 +111,7 @@ module.exports.serviceFields = function (service) {
 // parse csv data to object
 module.exports.parseResult = function (str, head) {
   var result = {};
-  var str = str.split (',');
+  str = str.split (',');
 
   // check values
   if (str.length < head.length -1 || str.length > head.length) {
@@ -127,7 +127,7 @@ module.exports.parseResult = function (str, head) {
   }
 
   // process
-  for (i=0; i<str.length; i++) {
+  for (var i=0; i<str.length; i++) {
     if (str [i].match (/^".*"$/)) {
       str [i] = str [i].slice (1, -1);
     }
@@ -142,12 +142,11 @@ module.exports.parseResult = function (str, head) {
 // do lookup
 module.exports.lookup = function (ip, service, callback) {
   if (typeof service === 'function') {
-    var callback = service;
-    var service = module.exports.settings.service || 'cityisporg';
+    callback = service;
   }
 
   // check service
-  var service = module.exports.serviceFields( service );
+  service = module.exports.serviceFields (module.exports.settings.service);
   if (!service) {
     callback (new Error ('Invalid service'));
     return;
@@ -172,10 +171,9 @@ module.exports.lookup = function (ip, service, callback) {
     method: 'GET'
   };
 
+  var request = require ('http').request (options);
   if (module.exports.apiproto === 'https') {
-    var request = require ('https').request (options);
-  } else {
-    var request = require ('http').request (options);
+    request = require ('https').request (options);
   }
 
   // request failed
