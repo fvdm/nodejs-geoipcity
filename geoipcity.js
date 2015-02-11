@@ -147,7 +147,7 @@ module.exports.lookup = function (ip, service, callback) {
   }
 
   // check service
-  service = module.exports.serviceFields (module.exports.settings.service);
+  service = module.exports.serviceFields (service);
   if (!service) {
     callback (new Error ('Invalid service'));
     return;
