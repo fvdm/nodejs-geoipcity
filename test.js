@@ -101,7 +101,7 @@ queue.push (function () {
 
 // ! Error: Invalid service
 queue.push (function () {
-  app.lookup ('x', null, function (err) {
+  app.lookup ('8.8.8.8', null, function (err) {
     testError (err, 'Invalid service');
   });
 });
@@ -110,7 +110,7 @@ queue.push (function () {
 // ! Error: No license
 queue.push (function () {
   app.settings.license = null;
-  app.lookup ('x', function (err) {
+  app.lookup ('8.8.8.8', function (err) {
     testError (err, 'No license');
   });
 });
