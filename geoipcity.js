@@ -215,7 +215,6 @@ module.exports.lookup = function (ip, service, callback) {
       if (err) {
         err.httpCode = response.statusCode;
         err.httpHeaders = response.headers;
-        err.request = options;
         err.response = data;
         data = null;
       }
